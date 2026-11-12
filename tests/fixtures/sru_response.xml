@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sru:searchRetrieveResponse xmlns:sru="http://docs.oasis-open.org/ns/search-ws/sruResponse"><sru:version>2.0</sru:version>
+<sru:numberOfRecords>7</sru:numberOfRecords><sru:records><sru:record><sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema><sru:recordPacking>xml</sru:recordPacking>
+<sru:recordData><gzd:gzd xmlns:gzd="http://standaarden.overheid.nl/sru"><gzd:originalData><overheidwetgeving:meta xmlns:overheidwetgeving="http://standaarden.overheid.nl/wetgeving/">
+<overheidwetgeving:owmskern xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:identifier>gmb-2026-481201</dcterms:identifier><dcterms:title>Aanvraag exploitatievergunning en alcoholwetvergunning, Oudegracht 214</dcterms:title>
+<dcterms:type scheme="overheid:Informatietype">officiele-publicatie</dcterms:type><dcterms:creator scheme="overheid:Gemeente">Utrecht</dcterms:creator>
+<dcterms:modified>2026-11-04</dcterms:modified></overheidwetgeving:owmskern>
+<overheidwetgeving:owmsmantel xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:abstract>Ontvangen aanvraag voor een exploitatievergunning en drank- en horecavergunning voor restaurant Vesper aan de Oudegracht 214, 3511 NS Utrecht.</dcterms:abstract><dcterms:available>2026-11-04</dcterms:available></overheidwetgeving:owmsmantel>
+</overheidwetgeving:meta></gzd:originalData><gzd:enrichedData><gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2026/gmb-2026-481201/1/xml/gmb-2026-481201.xml</gzd:url>
+<gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2026-481201.html</gzd:preferredUrl></gzd:enrichedData></gzd:gzd></sru:recordData><sru:recordPosition>1</sru:recordPosition></sru:record><sru:record><sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema><sru:recordPacking>xml</sru:recordPacking>
+<sru:recordData><gzd:gzd xmlns:gzd="http://standaarden.overheid.nl/sru"><gzd:originalData><overheidwetgeving:meta xmlns:overheidwetgeving="http://standaarden.overheid.nl/wetgeving/">
+<overheidwetgeving:owmskern xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:identifier>gmb-2026-479930</dcterms:identifier><dcterms:title>Verleende exploitatievergunning, Witte de Withstraat 61</dcterms:title>
+<dcterms:type scheme="overheid:Informatietype">officiele-publicatie</dcterms:type><dcterms:creator scheme="overheid:Gemeente">Rotterdam</dcterms:creator>
+<dcterms:modified>2026-10-28</dcterms:modified></overheidwetgeving:owmskern>
+<overheidwetgeving:owmsmantel xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:abstract>Besluit: verleend aan Lotus Ramen Bar V.O.F. voor de horecazaak aan de Witte de Withstraat 61, 3012 BN Rotterdam, inclusief terras.</dcterms:abstract><dcterms:available>2026-10-28</dcterms:available></overheidwetgeving:owmsmantel>
+</overheidwetgeving:meta></gzd:originalData><gzd:enrichedData><gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2026/gmb-2026-479930/1/xml/gmb-2026-479930.xml</gzd:url>
+<gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2026-479930.html</gzd:preferredUrl></gzd:enrichedData></gzd:gzd></sru:recordData><sru:recordPosition>1</sru:recordPosition></sru:record><sru:record><sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema><sru:recordPacking>xml</sru:recordPacking>
+<sru:recordData><gzd:gzd xmlns:gzd="http://standaarden.overheid.nl/sru"><gzd:originalData><overheidwetgeving:meta xmlns:overheidwetgeving="http://standaarden.overheid.nl/wetgeving/">
+<overheidwetgeving:owmskern xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:identifier>gmb-2026-482777</dcterms:identifier><dcterms:title>Aanvraag drank- en horecavergunning Kerkstraat 9</dcterms:title>
+<dcterms:type scheme="overheid:Informatietype">officiele-publicatie</dcterms:type><dcterms:creator scheme="overheid:Gemeente">Gemeente Haarlem</dcterms:creator>
+<dcterms:modified>2026-11-08</dcterms:modified></overheidwetgeving:owmskern>
+<overheidwetgeving:owmsmantel xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:abstract>Aanvraag ontvangen in verband met overname: nieuwe exploitant van eetcafé De Kleine Ster, Kerkstraat 9, 2011 DK Haarlem.</dcterms:abstract><dcterms:available>2026-11-08</dcterms:available></overheidwetgeving:owmsmantel>
+</overheidwetgeving:meta></gzd:originalData><gzd:enrichedData><gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2026/gmb-2026-482777/1/xml/gmb-2026-482777.xml</gzd:url>
+<gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2026-482777.html</gzd:preferredUrl></gzd:enrichedData></gzd:gzd></sru:recordData><sru:recordPosition>1</sru:recordPosition></sru:record><sru:record><sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema><sru:recordPacking>xml</sru:recordPacking>
+<sru:recordData><gzd:gzd xmlns:gzd="http://standaarden.overheid.nl/sru"><gzd:originalData><overheidwetgeving:meta xmlns:overheidwetgeving="http://standaarden.overheid.nl/wetgeving/">
+<overheidwetgeving:owmskern xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:identifier>gmb-2026-477410</dcterms:identifier><dcterms:title>Wijziging leidinggevende, Grote Markt 3</dcterms:title>
+<dcterms:type scheme="overheid:Informatietype">officiele-publicatie</dcterms:type><dcterms:creator scheme="overheid:Gemeente">Groningen</dcterms:creator>
+<dcterms:modified>2026-10-20</dcterms:modified></overheidwetgeving:owmskern>
+<overheidwetgeving:owmsmantel xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:abstract>Bijschrijving leidinggevende op bestaande vergunning.</dcterms:abstract><dcterms:available>2026-10-20</dcterms:available></overheidwetgeving:owmsmantel>
+</overheidwetgeving:meta></gzd:originalData><gzd:enrichedData><gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2026/gmb-2026-477410/1/xml/gmb-2026-477410.xml</gzd:url>
+<gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2026-477410.html</gzd:preferredUrl></gzd:enrichedData></gzd:gzd></sru:recordData><sru:recordPosition>1</sru:recordPosition></sru:record><sru:record><sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema><sru:recordPacking>xml</sru:recordPacking>
+<sru:recordData><gzd:gzd xmlns:gzd="http://standaarden.overheid.nl/sru"><gzd:originalData><overheidwetgeving:meta xmlns:overheidwetgeving="http://standaarden.overheid.nl/wetgeving/">
+<overheidwetgeving:owmskern xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:identifier>gmb-2026-480055</dcterms:identifier><dcterms:title>Aanvraag exploitatievergunning coffeeshop, Damstraat 2</dcterms:title>
+<dcterms:type scheme="overheid:Informatietype">officiele-publicatie</dcterms:type><dcterms:creator scheme="overheid:Gemeente">Amsterdam</dcterms:creator>
+<dcterms:modified>2026-10-30</dcterms:modified></overheidwetgeving:owmskern>
+<overheidwetgeving:owmsmantel xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:abstract>Coffeeshop.</dcterms:abstract><dcterms:available>2026-10-30</dcterms:available></overheidwetgeving:owmsmantel>
+</overheidwetgeving:meta></gzd:originalData><gzd:enrichedData><gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2026/gmb-2026-480055/1/xml/gmb-2026-480055.xml</gzd:url>
+<gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2026-480055.html</gzd:preferredUrl></gzd:enrichedData></gzd:gzd></sru:recordData><sru:recordPosition>1</sru:recordPosition></sru:record><sru:record><sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema><sru:recordPacking>xml</sru:recordPacking>
+<sru:recordData><gzd:gzd xmlns:gzd="http://standaarden.overheid.nl/sru"><gzd:originalData><overheidwetgeving:meta xmlns:overheidwetgeving="http://standaarden.overheid.nl/wetgeving/">
+<overheidwetgeving:owmskern xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:identifier>gmb-2026-483120</dcterms:identifier><dcterms:title>Aanvraag horeca-exploitatievergunning, Stratumseind 40</dcterms:title>
+<dcterms:type scheme="overheid:Informatietype">officiele-publicatie</dcterms:type><dcterms:creator scheme="overheid:Gemeente">Eindhoven</dcterms:creator>
+<dcterms:modified>2026-11-10</dcterms:modified></overheidwetgeving:owmskern>
+<overheidwetgeving:owmsmantel xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:abstract>Aanvraag voor horecabedrijf (lunchroom) op het adres Stratumseind 40, 5611 ET Eindhoven.</dcterms:abstract><dcterms:available>2026-11-10</dcterms:available></overheidwetgeving:owmsmantel>
+</overheidwetgeving:meta></gzd:originalData><gzd:enrichedData><gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2026/gmb-2026-483120/1/xml/gmb-2026-483120.xml</gzd:url>
+<gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2026-483120.html</gzd:preferredUrl></gzd:enrichedData></gzd:gzd></sru:recordData><sru:recordPosition>1</sru:recordPosition></sru:record><sru:record><sru:recordSchema>http://standaarden.overheid.nl/sru/</sru:recordSchema><sru:recordPacking>xml</sru:recordPacking>
+<sru:recordData><gzd:gzd xmlns:gzd="http://standaarden.overheid.nl/sru"><gzd:originalData><overheidwetgeving:meta xmlns:overheidwetgeving="http://standaarden.overheid.nl/wetgeving/">
+<overheidwetgeving:owmskern xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:identifier>gmb-2026-478800</dcterms:identifier><dcterms:title>Aanvraag terrasvergunning, Vismarkt 12</dcterms:title>
+<dcterms:type scheme="overheid:Informatietype">officiele-publicatie</dcterms:type><dcterms:creator scheme="overheid:Gemeente">Leiden</dcterms:creator>
+<dcterms:modified>2026-10-24</dcterms:modified></overheidwetgeving:owmskern>
+<overheidwetgeving:owmsmantel xmlns:dcterms="http://purl.org/dc/terms/"><dcterms:abstract>Aanvraag terrasvergunning voor Bistro Lune, Vismarkt 12, 2312 CR Leiden.</dcterms:abstract><dcterms:available>2026-10-24</dcterms:available></overheidwetgeving:owmsmantel>
+</overheidwetgeving:meta></gzd:originalData><gzd:enrichedData><gzd:url>https://repository.overheid.nl/frbr/officielepublicaties/gmb/2026/gmb-2026-478800/1/xml/gmb-2026-478800.xml</gzd:url>
+<gzd:preferredUrl>https://zoek.officielebekendmakingen.nl/gmb-2026-478800.html</gzd:preferredUrl></gzd:enrichedData></gzd:gzd></sru:recordData><sru:recordPosition>1</sru:recordPosition></sru:record></sru:records></sru:searchRetrieveResponse>

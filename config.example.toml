@@ -1,0 +1,37 @@
+# Copy to config.toml and edit. Anything left out falls back to the defaults in horeca_leads/config.py.
+
+[general]
+lookback_days = 45          # how far back to look for permits / openings
+min_score_to_draft = 40     # only draft emails for leads at or above this score
+db_path = "leads.db"
+output_dir = "output"
+
+[seller]
+company = "YourPOS"
+sender_name = "Your Name"
+sender_title = "Accountmanager"
+phone = "+31 6 00000000"
+product_pitch = "Een kassasysteem voor horeca: tafelplattegrond, bestellen aan tafel via handheld, QR-bestellen, koppeling met Thuisbezorgd/Uber Eats en reserveringssystemen, en geïntegreerd pinnen. Binnen 48 uur operationeel."
+offer = "een vrijblijvende demo van 20 minuten, op locatie of online"
+language = "nl"             # nl | en
+tone = "informal"           # informal (je) | formal (u)
+own_product_markers = []    # e.g. ["yourpos.nl", "powered by YourPOS"]: excludes existing customers
+
+[sources.bekendmakingen]
+enabled = true
+
+[sources.osm]
+enabled = true
+
+[sources.news]
+enabled = true              # needs Claude (extracts restaurants from headlines)
+
+[sources.csv]
+paths = []                  # e.g. ["kvk_export_sbi56101.csv"]
+
+[claude]
+enabled = true
+model = "claude-opus-5-5"
+email_effort = "medium"
+extract_effort = "low"
+use_fallbacks = true        # server-side fallback model on a policy decline

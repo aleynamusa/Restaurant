@@ -1,0 +1,12 @@
+{"version":0.6,"elements":[
+ {"type":"node","id":12000000001,"lat":52.37,"lon":4.89,"timestamp":"2026-10-25T10:11:00Z","version":1,
+  "tags":{"amenity":"restaurant","name":"Madame Okra","cuisine":"caribbean","addr:street":"Javastraat","addr:housenumber":"88","addr:postcode":"1094 HJ","addr:city":"Amsterdam","website":"https://madameokra.example.nl"}},
+ {"type":"node","id":12000000002,"lat":52.09,"lon":5.12,"timestamp":"2026-11-02T08:00:00Z","version":2,
+  "tags":{"amenity":"restaurant","name":"Vesper","opening_date":"2026-12-05","addr:street":"Oudegracht","addr:housenumber":"214","addr:city":"Utrecht","website":"https://vesper-utrecht.example.nl"}},
+ {"type":"way","id":98000000003,"center":{"lat":51.92,"lon":4.47},"timestamp":"2026-10-30T12:00:00Z","version":1,
+  "tags":{"amenity":"fast_food","name":"Five Guys","brand":"Five Guys","brand:wikidata":"Q1131810","addr:street":"Lijnbaan","addr:housenumber":"120","addr:city":"Rotterdam"}},
+ {"type":"node","id":12000000004,"lat":52.0,"lon":4.36,"timestamp":"2026-10-19T09:30:00Z","version":1,
+  "tags":{"amenity":"cafe","name":"Koffiebar Nooit Genoeg","addr:street":"Oude Delft","addr:housenumber":"7","addr:city":"Delft","website":"https://nooitgenoeg.example.nl"}},
+ {"type":"node","id":12000000005,"lat":52.1,"lon":5.1,"timestamp":"2026-11-05T09:30:00Z","version":7,
+  "tags":{"amenity":"restaurant","name":"Old Place Edited","addr:city":"Utrecht"}}
+]}
