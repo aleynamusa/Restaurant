@@ -16,7 +16,8 @@ from datetime import date
 from xml.etree import ElementTree as ET
 
 from ..http import Fetcher
-from ..models import (STAGE_PERMIT_APPLIED, STAGE_PERMIT_GRANTED, STAGE_UNKNOWN, Lead)
+from ..models import (STAGE_PERMIT_APPLIED, STAGE_PERMIT_GRANTED, STAGE_UNKNOWN, Lead,
+                      placeholder_name)
 
 log = logging.getLogger(__name__)
 
@@ -138,12 +139,13 @@ def extract_name(text: str) -> str:
 
 
 def permit_label(term: str) -> str:
+    """English name for the permit type mentioned in a (Dutch) notice."""
     t = term.lower()
     if "terras" in t:
-        return "terrasvergunning"
+        return "terrace permit"
     if "alcohol" in t or "drank" in t:
-        return "drank- en horecavergunning"
-    return "exploitatievergunning"
+        return "alcohol licence"
+    return "hospitality operating permit"
 
 
 def classify_category(text: str) -> str:
@@ -180,21 +182,21 @@ def record_to_lead(rec: dict, full_text: str = "") -> Lead | None:
 
     permit_kind = HORECA_TERMS.search(rec["title"]) or HORECA_TERMS.search(text)
     kind = permit_label(permit_kind.group(0))
-    stage_nl = "verleende" if stage == STAGE_PERMIT_GRANTED else "aanvraag"
-    evidence = [f"{stage_nl} {kind} gepubliceerd in Gemeenteblad {city} op {rec['modified'][:10]}"]
+    what = f"{kind} granted" if stage == STAGE_PERMIT_GRANTED else f"application for a {kind}"
+    evidence = [f"{what[:1].upper()}{what[1:]}, published in the {city} municipal gazette on {rec['modified'][:10]}"]
     takeover = bool(TAKEOVER.search(text))
     if takeover:
-        evidence.append("notice mentions a new operator / takeover")
+        evidence.append("Notice mentions a new operator / takeover")
     extra = {"permit_types": [kind]}
     if terrace_only:
         extra["terrace"] = True
-        evidence.append("terrace permit only: probably an existing venue expanding")
+        evidence.append("Terrace permit only: probably an existing venue expanding")
     elif TERRACE.search(text):
         extra["terrace"] = True
-        evidence.append("also applying for a terrace (terras)")
+        evidence.append("Also applying for a terrace")
 
     return Lead(
-        name=name or f"Horecazaak {address}",
+        name=name or placeholder_name(address),
         city=city,
         address=address,
         postcode=(pc_m.group(1).replace(" ", "") if pc_m else ""),
@@ -202,7 +204,8 @@ def record_to_lead(rec: dict, full_text: str = "") -> Lead | None:
         stage=stage,
         event_date=rec["modified"][:10],
         is_takeover=takeover,
-        sources=[{"source": "bekendmakingen", "url": rec["url"], "title": rec["title"], "date": rec["modified"][:10]}],
+        sources=[{"source": "bekendmakingen", "url": rec["url"], "date": rec["modified"][:10],
+                  "title": f"{city} municipal gazette notice ({what})", "original_title": rec["title"]}],
         evidence=evidence,
         extra=extra,
     )

@@ -8,7 +8,7 @@ from typing import Literal, Optional
 import anthropic
 from pydantic import BaseModel, Field
 
-from .models import STAGES, Lead
+from .models import STAGES, Lead, is_placeholder
 
 log = logging.getLogger(__name__)
 
@@ -26,7 +26,7 @@ class ExtractedPlace(BaseModel):
     opening_date: str = Field("", description="ISO date YYYY-MM-DD if stated, else empty")
     is_takeover: bool = Field(description="new owner taking over an existing venue")
     is_chain: bool = Field(description="branch of a chain/franchise")
-    fact: str = Field(description="one concrete fact from the article usable as an email hook, in the article's language")
+    fact: str = Field(description="one concrete fact from the article usable as an email hook, translated into English")
 
 
 class Extraction(BaseModel):
@@ -48,11 +48,16 @@ an empty list."""
 
 
 def _email_system(seller: dict) -> str:
-    lang = "Dutch" if seller["language"] == "nl" else "English"
-    tone = ("informal Dutch 'je/jij' as is normal among Dutch hospitality entrepreneurs"
-            if seller["language"] == "nl" and seller["tone"] == "informal"
-            else "formal 'u'" if seller["language"] == "nl" else "friendly, professional")
-    return f"""You write the first cold email from a POS (kassasysteem) salesperson to the owner of a restaurant
+    dutch = seller["language"] == "nl"
+    lang = "Dutch" if dutch else "English"
+    if dutch:
+        tone = "informal Dutch 'je/jij' as is normal among Dutch hospitality entrepreneurs" \
+            if seller["tone"] == "informal" else "formal Dutch 'u'"
+    else:
+        tone = "friendly and relaxed" if seller["tone"] == "informal" else "friendly, professional"
+    greeting = '"Hoi," / "Beste ondernemer,"' if dutch else '"Hi there," / "Hello,"'
+    optout = "'nee'" if dutch else "'no'"
+    return f"""You write the first cold email from a POS salesperson to the owner of a restaurant
 that has just opened or is about to open in the Netherlands. A human reviews and sends every email.
 
 Seller: {seller['sender_name']}, {seller['sender_title']} at {seller['company']}.
@@ -63,7 +68,8 @@ Write in {lang}, {tone}. Rules:
 - 70 to 120 words in the body. Short paragraphs. Plain text, no markdown, no emoji.
 - Open with ONE specific, verifiable fact about this venue taken from the lead facts (the permit, the opening,
   the street, the type of kitchen, the terrace, the takeover). Never invent facts, names, dates or numbers that are not
-  in the lead facts. If the owner's name is unknown, use a neutral greeting ("Hoi," / "Beste ondernemer,").
+  in the lead facts. If the owner's name is unknown, use a neutral greeting ({greeting}). Never use or guess a
+  real person's name; if an example person is ever needed, use "John Doe" or "Jane Doe".
 - Connect that fact to one concrete problem a POS solves for a venue of exactly this type and stage
   (e.g. pre-opening: get the till, card terminal and menu set up before day one; takeover: replacing an
   inherited system; terrace: handheld ordering; delivery platforms: orders straight into the kitchen).
@@ -71,7 +77,7 @@ Write in {lang}, {tone}. Rules:
   If they already have a POS, take a "worth comparing" angle and don't claim theirs is bad.
 - One clear, low-friction call to action. No pressure tactics, no superlatives, no fake urgency.
 - End with the signature (name, title, company{', phone' if seller.get('phone') else ''}), then one short line saying they
-  can reply 'nee' / 'no' and won't hear from us again.
+  can reply {optout} and won't hear from us again.
 - Subject: under 60 characters, specific to the venue, not salesy."""
 
 
@@ -128,7 +134,7 @@ class Claude:
     # ---------- email drafting ----------
     def draft_email(self, lead: Lead) -> EmailDraft:
         facts = {
-            "name": lead.name if not lead.name.startswith("Horecazaak ") else "(trade name unknown)",
+            "name": "(trade name unknown)" if is_placeholder(lead.name) else lead.name,
             "city": lead.city, "address": lead.address, "category": lead.category or "unknown",
             "stage": lead.stage, "opening_date": lead.opening_date, "is_takeover": lead.is_takeover,
             "facts": lead.evidence,

@@ -15,21 +15,28 @@ DEFAULTS: dict[str, Any] = {
         "min_score_to_draft": 40,
     },
     "seller": {
-        "company": "YourPOS",
-        "sender_name": "Your Name",
-        "sender_title": "Accountmanager",
+        "company": "Winston POS",
+        "sender_name": "John Doe",
+        "sender_title": "Account Manager",
         "phone": "",
         "product_pitch": (
-            "Een kassasysteem voor horeca: tafelplattegrond, bestellen aan tafel via handheld, "
-            "QR-bestellen, koppeling met Thuisbezorgd/Uber Eats en reserveringssystemen, en "
-            "pinbetalingen geïntegreerd. Binnen 48 uur operationeel."
+            "A POS system built for hospitality: table plan, ordering at the table on a handheld, "
+            "QR ordering, integrations with Thuisbezorgd/Uber Eats and reservation systems, and "
+            "built-in card payments. Up and running within 48 hours."
         ),
-        "offer": "een vrijblijvende demo van 20 minuten, op locatie of online",
-        "language": "nl",       # nl | en
-        "tone": "informal",     # informal (je/jij) | formal (u)
+        "offer": "a free 20-minute demo, on site or online",
+        # Used for Dutch emails (--lang nl). Replace both pitches with Winston POS's real selling points.
+        "product_pitch_nl": (
+            "Een kassasysteem voor horeca: tafelplattegrond, bestellen aan tafel via handheld, QR-bestellen, "
+            "koppeling met Thuisbezorgd/Uber Eats en reserveringssystemen, en geïntegreerd pinnen. "
+            "Binnen 48 uur operationeel."
+        ),
+        "offer_nl": "een vrijblijvende demo van 20 minuten, op locatie of online",
+        "language": "en",       # en | nl (language of drafts written by Claude; templates are English)
+        "tone": "informal",     # informal | formal
         # Names of your own product as they'd appear on a website. Prospects already
         # using it are excluded.
-        "own_product_markers": [],
+        "own_product_markers": ["winston pos", "winstonpos"],
     },
     "sources": {
         "bekendmakingen": {
@@ -63,6 +70,11 @@ DEFAULTS: dict[str, Any] = {
         "csv": {"paths": []},
     },
     "enrich": {"fetch_websites": True, "timeout": 10},
+    "geocode": {
+        "enabled": True,        # look up addresses for the map (Nominatim); off = city centre only
+        "endpoint": "https://nominatim.openstreetmap.org/search",
+        "max_lookups": 300,     # per run; Nominatim allows 1 request/second
+    },
     "claude": {
         "enabled": True,
         "model": "claude-opus-5-5",

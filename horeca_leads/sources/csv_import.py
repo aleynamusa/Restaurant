@@ -59,7 +59,7 @@ def load(paths: list[str]) -> list[Lead]:
                 sbi = _get(row, "sbi")
                 evidence = []
                 if _get(row, "date"):
-                    evidence.append(f"registered/listed on {_get(row, 'date')} ({path.name})")
+                    evidence.append(f"Registered/listed on {_get(row, 'date')} ({path.name})")
                 if sbi:
                     evidence.append(f"SBI code {sbi}")
                 if _get(row, "note"):

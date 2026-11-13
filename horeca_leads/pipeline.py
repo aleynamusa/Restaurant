@@ -9,7 +9,8 @@ import anthropic
 from . import enrich, scoring
 from .http import Fetcher
 from .llm import Claude
-from .models import Lead
+from .geocode import Geocoder
+from .models import Lead, is_placeholder
 from .sources import bekendmakingen, csv_import, news, osm
 from .store import Store
 from .templates import template_email
@@ -45,16 +46,17 @@ def dedupe(leads: list[Lead]) -> list[Lead]:
         else:
             by_id[l.id] = l
             target = l
-        if not target.name.startswith("Horecazaak "):
+        if not is_placeholder(target.name):
             by_name[make_id(target.name, target.city)] = target.id
     return list(by_id.values())
 
 
 def run(cfg: dict, fetcher: Fetcher, llm: Claude | None, store: Store, today: date | None = None,
-        redraft: bool = False, limit: int | None = None) -> list[Lead]:
+        redraft: bool = False, limit: int | None = None, geo_seed: dict | None = None) -> list[Lead]:
     today = today or date.today()
     leads = collect(cfg, fetcher, llm, today)
     log.info("collected %d unique leads", len(leads))
+    geocoder = Geocoder(cfg, fetcher, geo_seed)
     min_score = cfg["general"]["min_score_to_draft"]
     own = cfg["seller"]["own_product_markers"]
     out = []
@@ -67,8 +69,11 @@ def run(cfg: dict, fetcher: Fetcher, llm: Claude | None, store: Store, today: da
         if cfg["enrich"]["fetch_websites"] and not lead.extra.get("enriched"):
             enrich.enrich_lead(lead, fetcher, own)
             lead.extra["enriched"] = True
+        geocoder.locate(lead)
         scoring.score_lead(lead, today)
         out.append(lead)
+    if geocoder.lookups:
+        log.info("geocoded %d addresses", geocoder.lookups)
 
     out.sort(key=lambda l: -l.score)
     drafted = 0

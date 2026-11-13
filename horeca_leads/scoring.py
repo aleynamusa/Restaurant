@@ -61,7 +61,7 @@ def score_lead(lead: Lead, today: date | None = None) -> None:
 
     # Timing
     if lead.stage == STAGE_PERMIT_APPLIED:
-        add(W["stage_permit_applied"], "pre-opening: horeca permit applied for, POS most likely not chosen yet")
+        add(W["stage_permit_applied"], "pre-opening: hospitality permit applied for, POS most likely not chosen yet")
     elif lead.stage == STAGE_PERMIT_GRANTED:
         add(W["stage_permit_granted"], "permit granted: opening is imminent, setup decisions happening now")
     elif lead.stage == STAGE_ANNOUNCED:

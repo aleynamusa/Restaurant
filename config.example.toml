@@ -7,15 +7,17 @@ db_path = "leads.db"
 output_dir = "output"
 
 [seller]
-company = "YourPOS"
-sender_name = "Your Name"
-sender_title = "Accountmanager"
+company = "Winston POS"
+sender_name = "John Doe"
+sender_title = "Account Manager"
 phone = "+31 6 00000000"
-product_pitch = "Een kassasysteem voor horeca: tafelplattegrond, bestellen aan tafel via handheld, QR-bestellen, koppeling met Thuisbezorgd/Uber Eats en reserveringssystemen, en geïntegreerd pinnen. Binnen 48 uur operationeel."
-offer = "een vrijblijvende demo van 20 minuten, op locatie of online"
-language = "nl"             # nl | en
-tone = "informal"           # informal (je) | formal (u)
-own_product_markers = []    # e.g. ["yourpos.nl", "powered by YourPOS"]: excludes existing customers
+product_pitch = "A POS system built for hospitality: table plan, ordering at the table on a handheld, QR ordering, integrations with Thuisbezorgd/Uber Eats and reservation systems, and built-in card payments. Up and running within 48 hours."
+offer = "a free 20-minute demo, on site or online"
+product_pitch_nl = "Een kassasysteem voor horeca: tafelplattegrond, bestellen aan tafel via handheld, QR-bestellen, koppeling met Thuisbezorgd/Uber Eats en reserveringssystemen, en geïntegreerd pinnen. Binnen 48 uur operationeel."
+offer_nl = "een vrijblijvende demo van 20 minuten, op locatie of online"
+language = "en"             # en | nl: default email language (prospect --lang overrides it)
+tone = "informal"           # informal | formal
+own_product_markers = ["winston pos", "winstonpos"]   # how Winston appears on a customer's site: excludes existing customers
 
 [sources.bekendmakingen]
 enabled = true
@@ -28,6 +30,10 @@ enabled = true              # needs Claude (extracts restaurants from headlines)
 
 [sources.csv]
 paths = []                  # e.g. ["kvk_export_sbi56101.csv"]
+
+[geocode]
+enabled = true              # look up addresses for the review map (OpenStreetMap Nominatim, 1 req/s)
+max_lookups = 300           # per run; already-located leads are never looked up again
 
 [claude]
 enabled = true

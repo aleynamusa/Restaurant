@@ -5,6 +5,7 @@
   python -m horeca_leads review              # rebuild the review page/CSV from the database
   python -m horeca_leads mark <id> sent      # record a status by hand
   python -m horeca_leads import-decisions decisions.json   # sync statuses/edits back from the review page
+  python -m horeca_leads prospect <url> [--lang nl]        # one restaurant: facts, fit score, draft email
 """
 from __future__ import annotations
 
@@ -65,7 +66,15 @@ def main(argv: list[str] | None = None) -> int:
     m.add_argument("status", choices=["new", "reviewed", "sent", "skipped"])
     i = sub.add_parser("import-decisions", help="import decisions.json exported from the review page")
     i.add_argument("path")
+    pr = sub.add_parser("prospect", help="read restaurant websites: extract facts, score fit, draft an email")
+    pr.add_argument("urls", nargs="+", metavar="url")
+    pr.add_argument("--lang", choices=["en", "nl"], help="email language (default: seller.language in the config)")
+    pr.add_argument("--demo", action="store_true", help="use the bundled sample websites, no network")
+    pr.add_argument("--no-claude", action="store_true", help="extract facts with simple rules and use template emails")
     args = ap.parse_args(argv)
+    for stream in (sys.stdout, sys.stderr):   # Dutch text (é, ë) must survive pipes and redirects on Windows
+        if hasattr(stream, "reconfigure"):
+            stream.reconfigure(encoding="utf-8", errors="replace")
 
     logging.basicConfig(level=logging.DEBUG if args.verbose else logging.INFO, format="%(levelname)s %(message)s")
     cfg = load_config(args.config)
@@ -79,8 +88,6 @@ def main(argv: list[str] | None = None) -> int:
             cfg["general"]["db_path"] = str(Path(cfg["general"]["output_dir"]) / "demo.db")
             cfg["sources"]["news"]["enabled"] = False
             cfg["sources"]["csv"]["paths"] = [str(FIXTURES / "kvk_sample.csv")]
-            if cfg["seller"]["company"] == "YourPOS":
-                cfg["seller"].update(company="Kassa Collectief", sender_name="Sanne de Vries")
         Path(cfg["general"]["output_dir"]).mkdir(parents=True, exist_ok=True)
         if args.no_claude:
             cfg["claude"]["enabled"] = False
@@ -88,13 +95,36 @@ def main(argv: list[str] | None = None) -> int:
                           fixtures=demo_fixtures() if args.demo else None)
         llm = make_claude(cfg)
         store = Store(cfg["general"]["db_path"])
-        leads = pipeline.run(cfg, fetcher, llm, store, today=today, redraft=args.redraft, limit=args.limit)
+        seed = json.loads((FIXTURES / "geocode.json").read_text(encoding="utf-8")) if args.demo else None
+        leads = pipeline.run(cfg, fetcher, llm, store, today=today, redraft=args.redraft, limit=args.limit,
+                             geo_seed=seed)
         page = build_report(store, cfg)
         hot = sum(l.tier == "hot" for l in leads)
         print(f"\n{len(leads)} leads ({hot} hot). Review queue: {page.resolve()}")
         for l in leads[:10]:
             print(f"  {l.score:>3} {l.tier:<4} {l.name[:40]:<40} {l.city[:18]:<18} {l.stage}")
         return 0
+
+    if args.cmd == "prospect":
+        from . import prospect as pros
+        if args.no_claude:
+            cfg["claude"]["enabled"] = False
+        fetcher = Fetcher(cfg["general"]["user_agent"], cfg["enrich"]["timeout"],
+                          fixtures=demo_fixtures() if args.demo else None)
+        llm = make_claude(cfg)
+        if llm is None and not args.no_claude:
+            print("Claude is not available (set ANTHROPIC_API_KEY); using rules and templates instead.\n")
+        results = []
+        for url in args.urls:
+            p = pros.prospect(url, cfg, fetcher, llm, args.lang or cfg["seller"]["language"])
+            if p is None:
+                print(f"Could not load {url}", file=sys.stderr)
+                continue
+            pros.print_prospect(p)
+            results.append(p)
+        if results:
+            print(f"\nSaved to {pros.save(results, Path(cfg['general']['output_dir'])).resolve()}")
+        return 0 if results else 1
 
     store = Store(cfg["general"]["db_path"])
     if args.cmd == "review":

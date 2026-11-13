@@ -5,6 +5,7 @@ import hashlib
 import re
 import unicodedata
 from dataclasses import asdict, dataclass, field
+from datetime import date, timedelta
 from typing import Any
 
 # Lifecycle stages, from earliest to latest.
@@ -17,6 +18,22 @@ STAGE_UNKNOWN = "unknown"
 # Order of preference when two sightings of one place disagree.
 STAGE_PRIORITY = [STAGE_PERMIT_APPLIED, STAGE_PERMIT_GRANTED, STAGE_ANNOUNCED, STAGE_OPENED, STAGE_UNKNOWN]
 STAGES = [STAGE_ANNOUNCED, STAGE_PERMIT_APPLIED, STAGE_PERMIT_GRANTED, STAGE_OPENED, STAGE_UNKNOWN]
+
+# Lower is more precise; a better position from a second sighting replaces a worse one.
+GEO_RANK = {"exact": 0, "address": 1, "city": 2}
+
+
+# Permit notices often carry an address but no trade name; those leads get a placeholder name.
+PLACEHOLDER_PREFIX = "New venue at "
+_LEGACY_PREFIXES = (PLACEHOLDER_PREFIX, "Horecazaak ")   # older databases used the Dutch label
+
+
+def placeholder_name(address: str) -> str:
+    return f"{PLACEHOLDER_PREFIX}{address}"
+
+
+def is_placeholder(name: str) -> bool:
+    return name.startswith(_LEGACY_PREFIXES)
 
 
 def normalize(text: str) -> str:
@@ -52,6 +69,10 @@ class Lead:
     evidence: list[str] = field(default_factory=list)              # short human-readable facts
     detected_tech: list[str] = field(default_factory=list)          # e.g. "pos:lightspeed", "reservations:zenchef"
     extra: dict[str, Any] = field(default_factory=dict)
+    # map position; geo_precision is "exact" (from the map itself), "address" (geocoded) or "city" (city centre)
+    lat: float | None = None
+    lon: float | None = None
+    geo_precision: str = ""
     # filled later
     score: int = 0
     tier: str = ""
@@ -65,6 +86,22 @@ class Lead:
     def __post_init__(self) -> None:
         if not self.id:
             self.id = make_id(self.name, self.city, self.address)
+
+    def expected_opening(self) -> tuple[str, str]:
+        """(ISO date, basis) for when the place opens. basis is "reported" when a source states a
+        date, "estimated" when derived from the permit stage, or "" when nothing is known.
+
+        Estimates: Dutch municipalities usually decide on a horeca permit within about 8 weeks of
+        the application, and a venue tends to open a few weeks after the permit is granted."""
+        if self.opening_date:
+            return self.opening_date[:10], "reported"
+        weeks = {STAGE_PERMIT_APPLIED: 8, STAGE_PERMIT_GRANTED: 3}.get(self.stage)
+        if weeks and self.event_date:
+            try:
+                return (date.fromisoformat(self.event_date[:10]) + timedelta(weeks=weeks)).isoformat(), "estimated"
+            except ValueError:
+                pass
+        return "", ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -82,8 +119,10 @@ class Lead:
         for attr in ("address", "postcode", "category", "website", "email", "phone", "opening_date"):
             if not getattr(self, attr) and getattr(other, attr):
                 setattr(self, attr, getattr(other, attr))
-        if self.name.startswith("Horecazaak ") and not other.name.startswith("Horecazaak "):
+        if is_placeholder(self.name) and not is_placeholder(other.name):
             self.name = other.name
+        if other.lat is not None and GEO_RANK.get(other.geo_precision, 9) < GEO_RANK.get(self.geo_precision, 9):
+            self.lat, self.lon, self.geo_precision = other.lat, other.lon, other.geo_precision
         self.event_date = max(self.event_date, other.event_date)
         self.is_takeover = self.is_takeover or other.is_takeover
         self.is_chain = self.is_chain or other.is_chain

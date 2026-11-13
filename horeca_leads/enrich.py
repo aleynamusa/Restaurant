@@ -107,7 +107,7 @@ def enrich_lead(lead: Lead, fetcher: Fetcher, own_markers: list[str] | None = No
             lead.phone = m.group(0)
     text = soup.get_text(" ", strip=True)
     if COMING_SOON.search(text):
-        lead.evidence.append("website says the restaurant is opening soon")
+        lead.evidence.append("Website says the restaurant is opening soon")
         lead.extra["site_coming_soon"] = True
     title = soup.title.get_text(strip=True) if soup.title else ""
     desc = soup.find("meta", attrs={"name": "description"})
@@ -119,6 +119,6 @@ def flag_chains(lead: Lead, chains: list[str]) -> None:
     for c in chains:
         if re.search(rf"(^|\W){re.escape(c)}", n):
             lead.is_chain = True
-            if f"name matches chain '{c}'" not in lead.evidence:
-                lead.evidence.append(f"name matches chain '{c}'")
+            if f"Name matches chain '{c}'" not in lead.evidence:
+                lead.evidence.append(f"Name matches chain '{c}'")
             return

@@ -54,7 +54,9 @@ def element_to_lead(el: dict, since: date, max_version: int, today: date) -> Lea
             evidence.append(f"OpenStreetMap lists opening date {opening}")
     if stage is None and el.get("version", 99) <= max_version and ts >= since.isoformat():
         stage = STAGE_OPENED
-        evidence.append(f"first added to OpenStreetMap on {ts} (suggests a recent opening, not confirmed)")
+        evidence.append(f"First added to OpenStreetMap on {ts} (suggests a recent opening, not confirmed)")
+    pos = el.get("center") or el
+    lat, lon = pos.get("lat"), pos.get("lon")
     if stage is None:
         return None
     street = tags.get("addr:street", "")
@@ -76,9 +78,10 @@ def element_to_lead(el: dict, since: date, max_version: int, today: date) -> Lea
                   "title": f"OSM {tags.get('amenity')}: {name}", "date": ts}],
         evidence=evidence,
         extra={"cuisine": tags.get("cuisine", ""), "osm_only": True},
+        lat=lat, lon=lon, geo_precision="exact" if lat is not None else "",
     )
     if tags.get("brand"):
-        lead.evidence.append(f"tagged as part of brand '{tags['brand']}'")
+        lead.evidence.append(f"Tagged as part of brand '{tags['brand']}'")
     return lead
 
 
