@@ -2,10 +2,6 @@
 
 Finds restaurants in the Netherlands that recently opened or are about to open. It scores how likely each one is to need a new POS and drafts a personalised first email. A salesperson opens one page, sees every lead on a map, reads why each lead ranks where it does, tweaks the draft and clicks **Open in email app**.
 
-```
-sources ──► dedupe ──► enrich website ──► locate on map ──► score ──► draft email ──► review.html / leads.csv
-                                                                     (SQLite keeps status between runs)
-```
 
 ## Quick start
 
@@ -23,7 +19,7 @@ export ANTHROPIC_API_KEY=...                       # optional; without it, templ
 python -m horeca_leads run
 ```
 
-Run it daily or weekly (cron, or a scheduled CI job). Leads are deduplicated across runs. Anything marked sent or skipped stays that way, and new sightings of a known place are merged into the existing lead.
+Run it daily or weekly (scheduled CI job). Leads are deduplicated across runs. Anything marked sent or skipped stays that way, and new sightings of a known place are merged into the existing lead.
 
 ## Prospect one restaurant from its website
 
